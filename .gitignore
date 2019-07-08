@@ -1,0 +1,21 @@
+# OS NOISE
+.DS_Store
+*~
+*.o
+*.tmp
+/tmp
+/.vscode/ipch
+
+# out-of-source build and install
+/build/*
+!/build/.gitkeep
+/xbuild/*
+!/xbuild/.gitkeep
+/products/*
+
+# Dynamically generated sources
+/src/defines.h
+
+# Docker related
+arm7
+arm7a
