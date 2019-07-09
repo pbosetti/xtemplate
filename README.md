@@ -12,6 +12,32 @@ Furthermore, this template also provides a **basic backbone for a multiplatform 
 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 
+# Typical workflow
+Once the Docker containers are properly set up (see later), the typical workflow is the following:
+```bash
+# mount the remote system target install directory:
+$ sshfs user@targethost.local:/workdir products
+# configure for local and cross compiling:
+$ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Debug
+$ ./arm7 cmake -Bxbuild -H. -DCMAKE_BUILD_TYPE=Debug
+# edit your source and compile/test it locally,
+# (built products go in products_host dir):
+$ make install
+# build and install for target system
+# (built products go in products dir):
+$ ./arm7 make install
+# open an ssh shell to the target system and test your executable
+# (you will find it in /workdir/bin/)
+# Correct bugs and repeat the last step until you are satisfied.
+# Version your code and update version info:
+$ git commit -am "commit message"
+$ git tag -am "version comment" 0.1.0
+$ ./arm7 cmake -Bxbuild -H. -DCMAKE_BUILD_TYPE=Release
+$ ./arm7 make package
+# (optional) copy the installer to /workdir on the target system
+$ cp xbuild/myproject-Release-0.1.0-0-g0c05e15-Linux.sh products/
+```
+
 # Instructions
 
 ## Step 1: Customize and build your Dockcross image
@@ -67,3 +93,16 @@ This command mounts the prefix directory on the target system onto the `products
 $ ./arm7 make -Cxbuild install
 ```
 this installs the built stuff into `products/bin`, `products/lib`, `products/include`. In turn, since `products` mounts the prefix dir of the target system, the command `./arm7 make -Cxbuild install` compiles **and** copies the build results into the destination system in one single line. If you set `/usr/local` as prefix dir, your compiled stuff will end in `/usr/local/bin` etc.
+
+**NOTE**: As an added value of this approach, within your editor you will have the possibility to remotely open and edit directly all the files in the mounted directory. This comes very handy for changing ASCII files that are part of the project, e.g. configuration files, data files, etc.
+
+# Step 5: Create the installer
+Using CPack, the provided Cmake template can easily create an installer for the linux environment:
+```bash
+$ ./arm7 make -Cxbuild package
+```
+The resulting instaler is in the `xbuild` folder, with a name with this scheme: `xtemplate-Release-0.0.1-1-g0c05e15-Linux.sh`, which reads like this: `<name>-<build type>-<version>-<patch>-<git hash>-<platform>.sh`. The patch number is the number of commits past the given version tag. 
+
+If the git hash is followed by `§` then the originating git is in a dirty state, i.e., there are pending changes to be committed.
+
+**NOTE**: the proper versioning information is collected by the cmake command, **not** by make. Consequently, in order to have updated and correct version numbering in the installer name and in the `defines.h` **remember to re-run cmake** before calling `make package`
