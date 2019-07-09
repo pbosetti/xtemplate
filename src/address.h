@@ -1,20 +1,3 @@
-/******************************************************************************\
-__     __    ____  _ ____              ____  
-\ \   / /__ |  _ \(_) ___| _   _ ___  |___ \ 
- \ \ / / _ \| | | | \___ \| | | / __|   __) |
-  \ V / (_) | |_| | |___) | |_| \__ \  / __/ 
-   \_/ \___/|____/|_|____/ \__, |___/ |_____|
-                           |___/             
-==============================================================================
- File:         address.h
- Timestamp:    2018-Jul-30
- Author:       Paolo Bosetti <paolo.bosetti@unitn.it>
- Organization: Trentino Sviluppo SpA - https://promfacility.eu
- LICENSE:      All rights reserved (C) 2018
-               Contains some MIT-licensed code as prior-knowledge, see the
-               header of relevant source files
-\******************************************************************************/
-
 #ifndef FFT_ADDRESS_H
 #define FFT_ADDRESS_H
 
@@ -34,13 +17,6 @@ __     __    ____  _ ____              ____
   #error UNSUPPORTED PLATFORM
 #endif
 
-void mac_eth0(char MAC_str[13], char *name);
+void get_mac_addr(char MAC_str[13], char *name);
 
 #endif
-
-
-
-
-
-
-

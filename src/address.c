@@ -1,20 +1,3 @@
-/******************************************************************************\
-__     __    ____  _ ____              ____  
-\ \   / /__ |  _ \(_) ___| _   _ ___  |___ \ 
- \ \ / / _ \| | | | \___ \| | | / __|   __) |
-  \ V / (_) | |_| | |___) | |_| \__ \  / __/ 
-   \_/ \___/|____/|_|____/ \__, |___/ |_____|
-                           |___/             
-==============================================================================
- File:         address.c
- Timestamp:    2018-Jul-30
- Author:       Paolo Bosetti <paolo.bosetti@unitn.it>
- Organization: Trentino Sviluppo SpA - https://promfacility.eu
- LICENSE:      All rights reserved (C) 2018
-               Contains some MIT-licensed code as prior-knowledge, see the
-               header of relevant source files
-\******************************************************************************/
-
 #include <stdio.h>
 #include <string.h>
 #include <stdio.h>
@@ -35,7 +18,7 @@ __     __    ____  _ ____              ____
 #include "address.h"
 
 
-void mac_eth0(char MAC_str[13], char *name) {
+void get_mac_addr(char MAC_str[13], char *name) {
   unsigned char       *ptr;
 #ifdef __APPLE__
   int                  mib[6];
@@ -103,11 +86,9 @@ int main(int argc, char *argv[])
 {
     char mac[13];
 
-    mac_eth0(mac, INTERFACE_NAME);
+    get_mac_addr(mac, INTERFACE_NAME);
     puts(mac);
 
     return 0;
 }
 #endif
-
-

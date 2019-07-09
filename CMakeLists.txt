@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
-project(X-Template VERSION ${GIT_VERSION_TAG} LANGUAGES C)
 
 # GIT versioning - It requires at leas one git tag e.g. 0.0.1
 execute_process(
@@ -14,6 +13,7 @@ execute_process(
   OUTPUT_VARIABLE GIT_VERSION_TAG
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
+project(X-Template VERSION ${GIT_VERSION_TAG} LANGUAGES C)
     
 # Override build type (Debug or Release)
 # set(CMAKE_BUILD_TYPE Debug)
@@ -25,7 +25,10 @@ execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE TARGET_
 string(REPLACE "\n" "" TARGET_PLATFORM ${TARGET_PLATFORM})
 string(REGEX MATCH mipsel-openwrt-linux-musl IS_MIPSEL ${TARGET_PLATFORM})
 string(REGEX MATCH armv7-unknown-linux-gnueabi IS_ARM7 ${TARGET_PLATFORM})
-string(REGEX MATCH arm-cortexa8_neon-linux-gnueabihf IS_ARM7 ${TARGET_PLATFORM})
+string(REGEX MATCH arm-cortexa8_neon-linux-gnueabihf IS_ARM7A ${TARGET_PLATFORM})
+if (IS_ARM7 OR IS_ARM7A)
+  set(IS_ARM TRUE)
+endif()
 
 # SETUP PATHS AND VARIABLES
 if(IS_MIPSEL)
@@ -34,7 +37,7 @@ if(IS_MIPSEL)
   add_definitions(-D_OPENWRT_LINUX=1)
   include_directories(${ONION_DIR}/usr/include)
   link_directories(${ONION_DIR}/usr/lib)
-elseif(IS_ARM7)
+elseif(IS_ARM)
   message(STATUS "Cross-building for ARM (cross_root: ${cross_root})")
   set(LINUX TRUE)
   set(LUA_LIB lua)
@@ -57,7 +60,7 @@ endif()
 # FILES
 # expect all sources in /src, except mains
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
-file(GLOB LIB_SOURCES "${SOURCE_DIR}/*.c") list
+file(GLOB LIB_SOURCES "${SOURCE_DIR}/*.c")
 # generate defines.h, which also contains version numbers matching git tags
 configure_file(
   ${SOURCE_DIR}/defines.h.in
@@ -76,17 +79,23 @@ add_library(xtemplate_static STATIC ${LIB_SOURCES})
 add_library(xtemplate_shared SHARED ${LIB_SOURCES})
 add_executable(test ${SOURCE_DIR}/main/test.c)
 
+
 list(APPEND TARGETS_LIST
   test
 )
-if(IS_ARM7)
-  list(APPEND TARGETS_LIST template_shared)
+if(IS_ARM)
+  list(APPEND TARGETS_LIST xtemplate_shared)
+  target_link_libraries(test xtemplate_shared)
 elseif(IS_OPENWRT)
-  list(APPEND TARGETS_LIST template_static)
+  list(APPEND TARGETS_LIST xtemplate_static)
+  target_link_libraries(test xtemplate_static)
+else()
+  list(APPEND TARGETS_LIST xtemplate_static)
+  target_link_libraries(test xtemplate_static)
 endif()
 
 # INSTALL
-if(IS_MIPSEL OR IS_ARM7)
+if(IS_MIPSEL OR IS_ARM)
   set(CMAKE_INSTALL_PREFIX ${CMAKE_HOME_DIRECTORY}/products)
 else()
   set(CMAKE_INSTALL_PREFIX ${CMAKE_HOME_DIRECTORY}/products_host)

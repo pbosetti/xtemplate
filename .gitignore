@@ -4,7 +4,7 @@
 *.o
 *.tmp
 /tmp
-/.vscode/ipch
+/.vscode
 
 # out-of-source build and install
 /build/*
