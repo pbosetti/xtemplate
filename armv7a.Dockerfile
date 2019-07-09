@@ -3,9 +3,9 @@ LABEL maintainer="Paolo Bosetti <paolo.bosetti@unitn.it>"
 
 ENV WORKDIR /work
 ENV BUILDDIR /build
-ENV DEFAULT_DOCKCROSS_IMAGE arm7a
-# build with: docker build -t arm7a .
-# then:       docker run --rm arm7a > arm7a && chmod a+x arm7a
+ENV DEFAULT_DOCKCROSS_IMAGE armv7a
+# build with: docker build -t armv7a .
+# then:       docker run --rm armv7a > armv7a && chmod a+x armv7a
 
 # OpenSSL
 # Needed by mosquitto and mongodb

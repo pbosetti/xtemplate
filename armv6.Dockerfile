@@ -1,11 +1,11 @@
-FROM dockcross/linux-armv7:latest
+FROM dockcross/linux-armv6:latest
 LABEL maintainer="Paolo Bosetti <paolo.bosetti@unitn.it>"
 
 ENV WORKDIR /work
 ENV BUILDDIR /build
-ENV DEFAULT_DOCKCROSS_IMAGE arm7
-# build with: docker build -t arm7 .
-# then:       docker run --rm arm7 > arm7 && chmod a+x arm7
+ENV DEFAULT_DOCKCROSS_IMAGE armv6
+# build with: docker build -t armv6 .
+# then:       docker run --rm armv6 > armv6 && chmod a+x armv6
 
 # OpenSSL
 # Needed by mosquitto and mongodb
