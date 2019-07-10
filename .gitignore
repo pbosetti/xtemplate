@@ -13,9 +13,9 @@
 !/xbuild/.gitkeep
 /products/*
 
-# Dynamically generated sources
+# Dynamically generated files
 /src/defines.h
 
 # Docker related
-arm7
-arm7a
+/armv*
+/mipsel
