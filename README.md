@@ -123,5 +123,5 @@ This template also provides 4 *tasks* for Visual Studio Code. If you enter `task
 3. `cross-compile`: performs the actual compilation
 4. `install`: install the compilation results into `products`
 
-On Mac, tasks can be quickly invoked with `cmd-shift-B`.
+On Mac, tasks can be quickly invoked with `cmd-shift-B`, on Linux/Windows with `ctrl-shift-B`.
 You can customize the tasks by editing the `.vscode/tasks.json` file.
