@@ -105,7 +105,7 @@ this installs the built stuff into `products/bin`, `products/lib`, `products/inc
 
 **NOTE**: As an added value of this approach, within your editor you will have the possibility to remotely open and edit directly all the files in the mounted directory. This comes very handy for changing ASCII files that are part of the project, e.g. configuration files, data files, etc.
 
-# Step 5: Create the installer
+## Step 5: Create the installer
 Using CPack, the provided Cmake template can easily create an installer for the linux environment:
 ```bash
 $ ./armv7 make -Cxbuild package
@@ -115,3 +115,13 @@ The resulting instaler is in the `xbuild` folder, with a name with this scheme: 
 If the git hash is followed by `§` then the originating git is in a dirty state, i.e., there are pending changes to be committed.
 
 **NOTE**: the proper versioning information is collected by the cmake command, **not** by make. Consequently, in order to have updated and correct version numbering in the installer name and in the `defines.h` **remember to re-run cmake** before calling `make package`
+
+# Visual Studio Code integration
+This template also provides 4 *tasks* for Visual Studio Code. If you enter `tasks` in the command palette you will find:
+1. `clean xbuild`: removes the content of the `xbuild` folder
+2. `cross-configure`: performs the cmake configuration
+3. `cross-compile`: performs the actual compilation
+4. `install`: install the compilation results into `products`
+
+On Mac, tasks can be quickly invoked with `cmd-shift-B`.
+You can customize the tasks by editing the `.vscode/tasks.json` file.
