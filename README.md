@@ -12,6 +12,11 @@ Furthermore, this template also provides a **basic backbone for a multiplatform 
 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 
+## Prerequisites
+- [Docker CE on Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) or Docker Desktop on Mac/Win](https://www.docker.com/products/docker-desktop)
+- [Visual Studio Code](https://docs.docker.com/install/linux/docker-ce/ubuntu/) (suggested), or another good programmer editor
+- if you also want to native-compile, you will need cmake, make and a C/C++ compiler (gcc or clang)
+
 ## Tested platforms
 At the moment the template contains the following tested dockerfiles:
 * `mipsel`: tested on Onion Omega2
