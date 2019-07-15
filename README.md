@@ -142,7 +142,7 @@ The resulting installer is in the `xbuild` folder, with a name with this scheme:
 
 If the git hash is followed by `§` then the originating git is in a dirty state, i.e., there are pending changes to be committed.
 
-**NOTE**: the proper versioning information is collected by the CMake command, **not** by make. Consequently, in order to have updated and correct version numbering in the installer name and in the `defines.h` **remember to re-run cmake** before calling `make package`
+**NOTE**: the proper versioning information is collected by the CMake command, **not** by make. Consequently, in order to have updated and correct version numbering in the installer name and in the `defines.h` **remember to re-run cmake** before calling `make package` and after each commit.
 
 # Visual Studio Code integration
 This template also provides 4 *tasks* for Visual Studio Code. If you enter `tasks` in the command palette you will find:
