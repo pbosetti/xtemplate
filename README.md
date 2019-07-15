@@ -2,18 +2,18 @@
 
 This project is a template for quickly setting up a CMake+Docker-based cross-compiling environment for all the target systems supported by [Dockcross](https://github.com/dockcross/dockcross).
 
-Dockcross is a powerful set of tools that greatly simplifies the task of cross-compiling for embedded (many) devices. If your project needs many external libraries, though, you still have to cross-compile those libraries, since Dockcross images come with the bare minimum for C/C++ compiling (i.e. the standard libraries).
+Dockcross is a powerful set of tools that greatly simplifies the task of cross-compiling for (many) embedded devices. If your project needs many external libraries, though, you still have to cross-compile those libraries, since Dockcross images come with the bare minimum for C/C++ compiling (i.e. the standard libraries).
 
 This template aims at helping to **overcome this problem**.
 
 The approach here is to cross-compile the dependencies within the docker image via proper Dockerfiles, so that you can build **tailored Dockcross images** that also contain your **cross-compiled dependencies**.
 
-Furthermore, this template also provides a **basic backbone for a multiplatform project** plus four example Dockerfiles (for mipsel, ARMv6, ARMv7 and ARMv7a) that provide ncurses, readline, openssl, mosquitto, and lua5.3 libraries.
+Furthermore, this template also provides a **basic scaffold for a multiplatform C/C++ project** plus the ability of generating example Dockerfiles for mipsel, ARMv6, ARMv7 and ARMv7a that provide ncurses, readline, openssl, mosquitto, and lua5.3 cross-compiled libraries.
 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 
 ## Prerequisites
-- [Docker CE on Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) or [Docker Desktop on Mac/Win](https://www.docker.com/products/docker-desktop); note that this has been tested on Mac and Linux and *not on Windows* (nut it should work there with no/minimal changes)
+- [Docker CE on Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) or [Docker Desktop on Mac/Win](https://www.docker.com/products/docker-desktop); note that this has been tested on Mac and Linux and *not on Windows* (but it should work there with no/minimal changes)
 - [Visual Studio Code](https://code.visualstudio.com/download) (suggested), or another good programmer editor
 - CMake and a C/C++ compiler (gcc or clang)
 
@@ -147,3 +147,6 @@ This template also provides 4 *tasks* for Visual Studio Code. If you enter `task
 
 On Mac, tasks can be quickly invoked with `cmd-shift-B`, on Linux/Windows with `ctrl-shift-B`.
 You can customize the tasks by editing the `.vscode/tasks.json` file.
+
+# License
+MIT License. See `LICENSE` file.
