@@ -13,9 +13,9 @@ Furthermore, this template also provides a **basic backbone for a multiplatform 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 
 ## Prerequisites
-- [Docker CE on Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) or Docker Desktop on Mac/Win](https://www.docker.com/products/docker-desktop)
+- [Docker CE on Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) or [Docker Desktop on Mac/Win](https://www.docker.com/products/docker-desktop); note that this has been tested on Mac and Linux and *not on Windows* (nut it should work there with no/minimal changes)
 - [Visual Studio Code](https://docs.docker.com/install/linux/docker-ce/ubuntu/) (suggested), or another good programmer editor
-- if you also want to native-compile, you will need cmake, make and a C/C++ compiler (gcc or clang)
+- CMake and a C/C++ compiler (gcc or clang)
 
 ## Tested platforms
 At the moment the template contains the following tested dockerfiles:
@@ -75,7 +75,7 @@ Take as example the `Dockerfile` generated in Step 0: there are several steps sh
 $ docker build -t armv7 -f arm7.Dockerfile .
 $ docker run --rm armv7 > armv7 && chmod a+x armv7
 ```
-then open a shell with `./armv7 bash`. Within this shell try to download, configure and cross compile the library you need, following the library instructiond on cross-compiling (this often needs to pass some options to the `configure` script or to the cmake command).
+then open a shell with `./armv7 bash`. Within this shell try to download, configure and cross compile the library you need, following the library instructiond on cross-compiling (this often needs to pass some options to the `configure` script or to the CMake command).
 Once you figured out how to cross-compile the library you need, just add an additional `RUN` section at the end of the dockerfile.
 
 When you are done, **remember to uncomment the latter lines** in the original dockerfile, removing unnecessary intermidiate build directories to save disk space in the resulting docker image.
@@ -95,7 +95,7 @@ while if you want to configure for your current (host) platform:
 $ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Debug
 ```
 
-**IMPORTANT NOTE**: the Dockecross images mount the current working directory within the container, so that in order to access files in your project root you *must* invoke cmake from the project root. If you are tempred to do `cd xbuild; ./armv7 cmake ..` you will loose access to the project root and something probably will not work.
+**IMPORTANT NOTE**: the Dockecross images mount the current working directory within the container, so that in order to access files in your project root you *must* invoke CMake from the project root. If you are tempred to do `cd xbuild; ./armv7 cmake ..` you will loose access to the project root and something probably will not work.
 
 ## Step 3: Build the project
 For building, use the make command:
@@ -128,7 +128,7 @@ this installs the built stuff into `products/bin`, `products/lib`, `products/inc
 **NOTE**: As an added value of this approach, within your editor you will have the possibility to remotely open and edit directly all the files in the mounted directory. This comes very handy for changing ASCII files that are part of the project, e.g. configuration files, data files, etc.
 
 ## Step 5: Create the installer
-Using CPack, the provided Cmake template can easily create an installer for the linux environment:
+Using CPack, the provided CMake template can easily create an installer for the linux environment:
 ```bash
 $ ./armv7 make -Cxbuild package
 ```
@@ -136,12 +136,12 @@ The resulting instaler is in the `xbuild` folder, with a name with this scheme: 
 
 If the git hash is followed by `§` then the originating git is in a dirty state, i.e., there are pending changes to be committed.
 
-**NOTE**: the proper versioning information is collected by the cmake command, **not** by make. Consequently, in order to have updated and correct version numbering in the installer name and in the `defines.h` **remember to re-run cmake** before calling `make package`
+**NOTE**: the proper versioning information is collected by the CMake command, **not** by make. Consequently, in order to have updated and correct version numbering in the installer name and in the `defines.h` **remember to re-run cmake** before calling `make package`
 
 # Visual Studio Code integration
 This template also provides 4 *tasks* for Visual Studio Code. If you enter `tasks` in the command palette you will find:
 1. `clean xbuild`: removes the content of the `xbuild` folder
-2. `cross-configure`: performs the cmake configuration
+2. `cross-configure`: performs the CMake configuration
 3. `cross-compile`: performs the actual compilation
 4. `install`: install the compilation results into `products`
 
