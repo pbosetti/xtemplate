@@ -53,8 +53,14 @@ $ cp xbuild/myproject-Release-0.1.0-0-g0c05e15-Linux.sh products/
 ```
 
 # Instructions
+## Step 0: Create your own repo
+If you are reading this on Github, just click on the green button named "Use this template" on the top of this page, create your repo and clone it.
 
-## Step 0: Configure for local, and generate base Dockerfile
+Otherwise, just [follow this link](https://github.com/pbosetti/xtemplate/generate).
+
+Once you are done **remember to add a git tag to the repo**: `git tag --am " " 0.0.1`. This is needed for enabling the CMake to automatically version-number your code. If you do not add a version number, **CMake will not work!**
+
+## Step 1: Configure for local, and generate base Dockerfile
 First of all you need to CMake configure the project for native compiling. This generated the Dockerfile for creating the Docker container according to the target platform that you select with the `TARGET_NAME` CMake variable. Allowed values for this variable are: `mipsel`, `armv6`, `armv7`, `armv7a`.
 
 The Dockerfile is generated on the basis of the `Dockerfile.in` template file.
@@ -69,8 +75,8 @@ $ ccmake -Bbuild -H.
 ```
 in the interactive environment, type 'c', then move down the list and repeatedly type 'Enter' until the proper target is selected, then type 'c' and again 'g'.
 
-## Step 1: Customize and build your Dockcross image
-Take as example the `Dockerfile` generated in Step 0: there are several steps showing how different libraries are cross compiled within the image. If the provided libraries are not enough, just add your own. My suggestion is to start with the provided image, build it with:
+## Step 2: Customize and build your Dockcross image
+Take as example the `Dockerfile` generated in Step 1: there are several steps showing how different libraries are cross compiled within the image. If the provided libraries are not enough, just add your own. My suggestion is to start with the provided image, build it with:
 ```bash
 $ docker build -t armv7 -f arm7.Dockerfile .
 $ docker run --rm armv7 > armv7 && chmod a+x armv7
@@ -84,7 +90,7 @@ From now on, you can prepend the `./armv7` command to build instructions.
 
 **Note** that every time that you run CMake for native target it will regenerate the `Dockerfile` on the basis of `Dockerfile.in`, so if you want to make your additions permanent, consider adding them to `Dockerfile.in` rather than to the generated `Dockerfile`.
 
-## Step2: Configure your project
+## Step 3: Configure your project
 For configuring the project, the usual CMake command must be prepended with the magic command `./armv7` (or whichever is the name of your cross-build image):
 ```bash
 # from within your project root directory
@@ -97,7 +103,7 @@ $ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Debug
 
 **IMPORTANT NOTE**: the Dockecross images mount the current working directory within the container, so that in order to access files in your project root you *must* invoke CMake from the project root. If you are tempred to do `cd xbuild; ./armv7 cmake ..` you will loose access to the project root and something probably will not work.
 
-## Step 3: Build the project
+## Step 4: Build the project
 For building, use the make command:
 ```bash
 # from within your project root directory
@@ -110,7 +116,7 @@ $ make -Cbuild
 
 **IMPORTANT NOTE**: as per the note above, please invoke `./armv7 make` from the project root using the `-C` flag.
 
-## Step 4: Installing the built binaries
+## Step 5: Installing the built binaries
 You can now copy the binaries to the target platform according to your preferred procedure. I am here suggesting the one I find more effective and quick, though.
 
 You have to set-up your target system by installing the `sshfs` package. This service allows you to mount a folder in the remote (target) system onto a folder of your development machine:
@@ -127,7 +133,7 @@ this installs the built stuff into `products/bin`, `products/lib`, `products/inc
 
 **NOTE**: As an added value of this approach, within your editor you will have the possibility to remotely open and edit directly all the files in the mounted directory. This comes very handy for changing ASCII files that are part of the project, e.g. configuration files, data files, etc.
 
-## Step 5: Create the installer
+## Step 6: Create the installer
 Using CPack, the provided CMake template can easily create an installer for the linux environment:
 ```bash
 $ ./armv7 make -Cxbuild package
