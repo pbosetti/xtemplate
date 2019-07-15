@@ -69,11 +69,11 @@ To select the target platform you can either pass it to the command line:
 ```bash
 $ cmake -Bbuild -H. -DTARGET_NAME=armv7
 ```
-or invoke the interactive `ccmake` and select the proper value (note the doubel 'c' in `ccmake`):
+or invoke the interactive `ccmake` and select the proper value (note the double 'c' in `ccmake`):
 ```bash
 $ ccmake -Bbuild -H.
 ```
-in the interactive environment, type 'c', then move down the list and repeatedly type 'Enter' until the proper target is selected, then type 'c' and again 'g'.
+in the interactive environment, type `c`, then move down the list and repeatedly type `Enter` until the proper target is selected, then type again `c` and then `g`.
 
 ## Step 2: Customize and build your Dockcross image
 Take as example the `Dockerfile` generated in Step 1: there are several steps showing how different libraries are cross compiled within the image. If the provided libraries are not enough, just add your own. My suggestion is to start with the provided image, build it with:
