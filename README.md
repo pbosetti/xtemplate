@@ -14,7 +14,7 @@ The project is based on CMake and has template targets for building static and s
 
 ## Prerequisites
 - [Docker CE on Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/) or [Docker Desktop on Mac/Win](https://www.docker.com/products/docker-desktop); note that this has been tested on Mac and Linux and *not on Windows* (nut it should work there with no/minimal changes)
-- [Visual Studio Code](https://docs.docker.com/install/linux/docker-ce/ubuntu/) (suggested), or another good programmer editor
+- [Visual Studio Code](https://code.visualstudio.com/download) (suggested), or another good programmer editor
 - CMake and a C/C++ compiler (gcc or clang)
 
 ## Tested platforms
