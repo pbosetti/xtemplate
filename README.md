@@ -136,7 +136,7 @@ this installs the built stuff into `products/bin`, `products/lib`, `products/inc
 ## Step 6: Create the installer
 Using CPack, the provided CMake template can easily create an installer for the linux environment:
 ```bash
-$ ./armv7 make -Cxbuild -H. package
+$ ./armv7 make -Cxbuild package
 ```
 The resulting installer is in the `xbuild` folder, with a name with this scheme: `xtemplate-Release-0.0.1-1-g0c05e15-Linux.sh`, which reads like this: `<name>-<build type>-<version>-<patch>-<git hash>-<platform>.sh`. The patch number is the number of commits past the given version tag. 
 
