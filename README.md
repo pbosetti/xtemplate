@@ -78,7 +78,7 @@ $ docker run --rm armv7 > armv7 && chmod a+x armv7
 then open a shell with `./armv7 bash`. Within this shell try to download, configure and cross compile the library you need, following the library instructiond on cross-compiling (this often needs to pass some options to the `configure` script or to the CMake command).
 Once you figured out how to cross-compile the library you need, just add an additional `RUN` section at the end of the dockerfile.
 
-When you are done, **remember to uncomment the latter lines** in the original dockerfile, removing unnecessary intermidiate build directories to save disk space in the resulting docker image.
+When you are done, **remember to uncomment the latter lines** in the original `Dockerfile`, removing unnecessary intermediate build directories to save disk space in the resulting docker image.
 
 From now on, you can prepend the `./armv7` command to build instructions.
 
