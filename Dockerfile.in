@@ -1,11 +1,11 @@
-FROM dockcross/linux-mipsel:latest
+FROM dockcross/linux-@TARGET_NAME@:latest
 LABEL maintainer="Paolo Bosetti <paolo.bosetti@unitn.it>"
 
 ENV WORKDIR /work
 ENV BUILDDIR /build
-ENV DEFAULT_DOCKCROSS_IMAGE mipsel
-# build with: docker build -t mipsel .
-# then:       docker run --rm mipsel > mipsel && chmod a+x mipsel
+ENV DEFAULT_DOCKCROSS_IMAGE @TARGET_NAME@
+# build with: docker build -t @TARGET_NAME@ .
+# then:       docker run --rm @TARGET_NAME@ > @TARGET_NAME@ && chmod a+x @TARGET_NAME@
 
 # OpenSSL
 # Needed by mosquitto and mongodb

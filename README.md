@@ -54,8 +54,23 @@ $ cp xbuild/myproject-Release-0.1.0-0-g0c05e15-Linux.sh products/
 
 # Instructions
 
+## Step 0: Configure for local, and generate base Dockerfile
+First of all you need to CMake configure the project for native compiling. This generated the Dockerfile for creating the Docker container according to the target platform that you select with the `TARGET_NAME` CMake variable. Allowed values for this variable are: `mipsel`, `armv6`, `armv7`, `armv7a`.
+
+The Dockerfile is generated on the basis of the `Dockerfile.in` template file.
+
+To select the target platform you can either pass it to the command line:
+```bash
+$ cmake -Bbuild -H. -DTARGET_NAME=armv7
+```
+or invoke the interactive `ccmake` and select the proper value (note the doubel 'c' in `ccmake`):
+```bash
+$ ccmake -Bbuild -H.
+```
+in the interactive environment, type 'c', then move down the list and repeatedly type 'Enter' until the proper target is selected, then type 'c' and again 'g'.
+
 ## Step 1: Customize and build your Dockcross image
-Take as example the `armv7.Dockerfile`: there are several steps showing how different libraries are cross compiled within the image. If the provided libraries are not enough, just add your own. My suggestion is to start with the provided image, build it with
+Take as example the `Dockerfile` generated in Step 0: there are several steps showing how different libraries are cross compiled within the image. If the provided libraries are not enough, just add your own. My suggestion is to start with the provided image, build it with:
 ```bash
 $ docker build -t armv7 -f arm7.Dockerfile .
 $ docker run --rm armv7 > armv7 && chmod a+x armv7
@@ -67,8 +82,10 @@ When you are done, **remember to uncomment the latter lines** in the original do
 
 From now on, you can prepend the `./armv7` command to build instructions.
 
+**Note** that every time that you run CMake for native target it will regenerate the `Dockerfile` on the basis of `Dockerfile.in`, so if you want to make your additions permanent, consider adding them to `Dockerfile.in` rather than to the generated `Dockerfile`.
+
 ## Step2: Configure your project
-For configuring the project, the usual CMake command must be prepended with the magic `./armv7` (or whichever is the name of your cross-build image) command:
+For configuring the project, the usual CMake command must be prepended with the magic command `./armv7` (or whichever is the name of your cross-build image):
 ```bash
 # from within your project root directory
 $ ./armv7 cmake -Bxbuild -H. -DCMAKE_BUILD_TYPE=Debug

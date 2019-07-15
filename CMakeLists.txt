@@ -47,19 +47,21 @@ elseif(IS_ARM)
 elseif(UNIX AND NOT APPLE)
   message(STATUS "Building on Linux")
   set(LINUX TRUE)
+  set(NATIVE TRUE)
   set(LUA_LIB lua5.3)
   include_directories(/usr/include/${LUA_LIB} /usr/local/include)
   link_directories(/usr/lib/x86_64-linux-gnu)
 elseif(APPLE)
   message(STATUS "Building on Apple OS X")
   set(LUA_LIB lua)
+  set(NATIVE TRUE)
   include_directories(/usr/local/include /usr/local/include/lua)
   link_directories(/usr/local/lib)
 endif()
 
 # FILES
 # expect all sources in /src, except mains
-set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+set(SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/src)
 file(GLOB LIB_SOURCES "${SOURCE_DIR}/*.c")
 # generate defines.h, which also contains version numbers matching git tags
 configure_file(
@@ -117,3 +119,19 @@ set(CPACK_GENERATOR "STGZ")
 set(CPACK_PACKAGE_VERSION ${GIT_COMMIT_HASH})
 set(CPACK_PACKAGE_NAME xtemplate-${CMAKE_BUILD_TYPE})
 include(CPack)
+
+# if not cross-compiling, create Dockerfile for the target platform
+if(NATIVE)
+  set(TARGET_NAME CACHE STRING "Select TARGET platform")
+  if(NOT TARGET_NAME)
+    set(TARGET_NAME "armv7")
+  endif()
+  set_property(CACHE TARGET_NAME PROPERTY STRINGS mipsel armv6 armv7 armv7a)
+  configure_file(
+    ${CMAKE_HOME_DIRECTORY}/Dockerfile.in
+    ${CMAKE_HOME_DIRECTORY}/Dockerfile
+  )
+  message(STATUS "Host Dockerfile generated for target ${TARGET_NAME}")
+  message(STATUS "build with: docker build -t ${TARGET_NAME} .")
+  message(STATUS "then:       docker run --rm ${TARGET_NAME} > ${TARGET_NAME} && chmod a+x ${TARGET_NAME}")
+endif()
