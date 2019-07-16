@@ -130,6 +130,7 @@ if(NATIVE)
   configure_file(
     ${CMAKE_HOME_DIRECTORY}/Dockerfile.in
     ${CMAKE_HOME_DIRECTORY}/Dockerfile
+    @ONLY
   )
   message(STATUS "Host Dockerfile generated for target ${TARGET_NAME}")
   message(STATUS "build with: docker build -t ${TARGET_NAME} .")
