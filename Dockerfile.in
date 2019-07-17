@@ -55,4 +55,4 @@ RUN cd ${BUILDDIR} && wget https://github.com/zeromq/libzmq/releases/download/v$
     make -Cxbuild install && make -Cxbuild clean
 
 # Cleanup build dir
-#RUN rm -rf ${BUILDDIR}/*
+@COMMENT_BUILD_DIR@RUN rm -rf ${BUILDDIR}/*

@@ -122,6 +122,12 @@ include(CPack)
 
 # if not cross-compiling, create Dockerfile for the target platform
 if(NATIVE)
+  option(KEEP_BUILD_DIR "Do not delete build dir in Docker container" OFF)
+  if(KEEP_BUILD_DIR)
+    set(COMMENT_BUILD_DIR "#")
+  else()
+    set(COMMENT_BUILD_DIR "")
+  endif()
   set(TARGET_NAME CACHE STRING "Select TARGET platform")
   if(NOT TARGET_NAME)
     set(TARGET_NAME "armv7")
