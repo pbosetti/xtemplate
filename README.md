@@ -8,7 +8,13 @@ This template aims at helping to **overcome this problem**.
 
 The approach here is to cross-compile the dependencies within the docker image via proper Dockerfiles, so that you can build **tailored Dockcross images** that also contain your **cross-compiled dependencies**.
 
-Furthermore, this template also provides a **basic scaffold for a multiplatform C/C++ project** plus the ability of generating example Dockerfiles for mipsel, ARMv6, ARMv7 and ARMv7a that provide ncurses, readline, openssl, mosquitto, and lua5.3 cross-compiled libraries.
+Furthermore, this template also provides a **basic scaffold for a multiplatform C/C++ project** plus the ability of generating a base Dockerfile for mipsel, ARMv6, ARMv7 and ARMv7a that provides the following cross-compiled libraries:
+* ncurses (6.1)
+* readline (8.0)
+* openssl (1.0.1e)
+* libmosquitto (1.5.1)
+* ZeroMQ (4.3.2)
+* lua (5.3.5)
 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 
