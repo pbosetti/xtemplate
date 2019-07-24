@@ -27,8 +27,9 @@ The project is based on CMake and has template targets for building static and s
 At the moment the template contains the following tested dockerfiles:
 * `mipsel`: tested on Onion Omega2
 * `armv6`: tested on Raspberry Pi
-* `armv7`: tested on Variscite armv7 SOM
+* `armv7`: tested on Variscite DART-6UL armv7 SOM
 * `armv7a`: tested on BeagleBone Black
+* `arm64`: tested on nvidia PX2
 
 The following sections assume to cross-compile for the armv7 platform. For other platforms, just replace the `./armv7` command with your need.
 

@@ -26,7 +26,8 @@ string(REPLACE "\n" "" TARGET_PLATFORM ${TARGET_PLATFORM})
 string(REGEX MATCH mipsel-openwrt-linux-musl IS_MIPSEL ${TARGET_PLATFORM})
 string(REGEX MATCH armv7-unknown-linux-gnueabi IS_ARM7 ${TARGET_PLATFORM})
 string(REGEX MATCH arm-cortexa8_neon-linux-gnueabihf IS_ARM7A ${TARGET_PLATFORM})
-if (IS_ARM7 OR IS_ARM7A)
+string(REGEX MATCH aarch64-unknown-linux-gnueabi IS_ARM64 ${TARGET_PLATFORM})
+if (IS_ARM7 OR IS_ARM7A OR IS_ARM64)
   set(IS_ARM TRUE)
 endif()
 
@@ -132,7 +133,7 @@ if(NATIVE)
   if(NOT TARGET_NAME)
     set(TARGET_NAME "armv7")
   endif()
-  set_property(CACHE TARGET_NAME PROPERTY STRINGS mipsel armv6 armv7 armv7a)
+  set_property(CACHE TARGET_NAME PROPERTY STRINGS mipsel armv6 armv7 armv7a arm64)
   configure_file(
     ${CMAKE_HOME_DIRECTORY}/Dockerfile.in
     ${CMAKE_HOME_DIRECTORY}/Dockerfile

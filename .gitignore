@@ -17,6 +17,6 @@
 /src/defines.h
 
 # Docker related
-/armv*
+/arm*
 /mipsel
 /Dockerfile
