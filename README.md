@@ -15,6 +15,7 @@ Furthermore, this template also provides a **basic scaffold for a multiplatform 
 * libmosquitto (1.5.1)
 * ZeroMQ (4.3.2)
 * lua (5.3.5)
+* mruby (2.0.1)
 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 

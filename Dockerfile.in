@@ -54,5 +54,13 @@ RUN cd ${BUILDDIR} && wget https://github.com/zeromq/libzmq/releases/download/v$
     cmake -DCMAKE_TOOLCHAIN_FILE=${CROSS_ROOT}/Toolchain.cmake -Bxbuild -H. -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CROSS_ROOT} -DWITH_DOCS=OFF -DZMQ_BUILD_TESTS=OFF && \
     make -Cxbuild install && make -Cxbuild clean
 
+# mruby
+@COMMENT_ENABLE_MRUBY@ENV MRUBY_VERSION 2.0.1
+@COMMENT_ENABLE_MRUBY@RUN apt install -y ruby
+@COMMENT_ENABLE_MRUBY@COPY build_config.rb ${BUILDDIR}
+@COMMENT_ENABLE_MRUBY@RUN cd ${BUILDDIR} && /usr/bin/ruby build_config.rb && \
+@COMMENT_ENABLE_MRUBY@    install mruby/build/${DEFAULT_DOCKCROSS_IMAGE}/lib/libmruby.a $CROSS_ROOT/lib && \
+@COMMENT_ENABLE_MRUBY@    cd mruby && make clean
+
 # Cleanup build dir
 @COMMENT_BUILD_DIR@RUN rm -rf ${BUILDDIR}/*
