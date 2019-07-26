@@ -69,11 +69,11 @@ MRuby::CrossBuild.new(ENV["DEFAULT_DOCKCROSS_IMAGE"]) do |conf|
 
   conf.cc do |cc|
     cc.command = "#{CROSS_ROOT}/bin/#{CROSS_TRIPLE}-gcc"
-    cc.include_paths << ["#{CROSS_ROOT}/include", "SYSROOT/usr/include/"]
+    cc.include_paths << ["#{CROSS_ROOT}/include", "#{SYSROOT}/usr/include/"]
     cc.flags << %w(-std=gnu11)
     cc.flags << %w(-O2 -pipe -g -feliminate-unused-debug-types)
     cc.flags << "--sysroot=#{SYSROOT}"
-    # cc.defines = %w(ENABLE_READLINE)
+    cc.defines = %w(ENABLE_READLINE)
   end
 
   conf.cxx do |cxx|
