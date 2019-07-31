@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 
+#   _____          _ _           _                        
+#  |  __ \        | (_)         (_)                       
+#  | |__) | __ ___| |_ _ __ ___  _ _ __   __ _ _ __ _   _ 
+#  |  ___/ '__/ _ \ | | '_ ` _ \| | '_ \ / _` | '__| | | |
+#  | |   | | |  __/ | | | | | | | | | | | (_| | |  | |_| |
+#  |_|   |_|  \___|_|_|_| |_| |_|_|_| |_|\__,_|_|   \__, |
+#                                                    __/ |
+#                                                   |___/ 
 # GIT versioning - It requires at leas one git tag e.g. 0.0.1
+# create it with: git tag -am " " 0.0.1
 execute_process(
   COMMAND git describe --long --dirty=§
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -20,6 +29,14 @@ project(X-Template VERSION ${GIT_VERSION_TAG} LANGUAGES C)
 # set(CMAKE_BUILD_TYPE Release)
 message(STATUS "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 
+#    _____                           _____                      
+#   / ____|                         / ____|                     
+#  | |     _ __ ___  ___ ___ ______| |     ___  _ __ ___  _ __  
+#  | |    | '__/ _ \/ __/ __|______| |    / _ \| '_ ` _ \| '_ \ 
+#  | |____| | | (_) \__ \__ \      | |___| (_) | | | | | | |_) |
+#   \_____|_|  \___/|___/___/       \_____\___/|_| |_| |_| .__/ 
+#                                                        | |    
+#                                                        |_|    
 # Find out target platform
 execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE TARGET_PLATFORM) #put into TARGET_PLATFORM result of $ gcc -dumpmachine
 string(REPLACE "\n" "" TARGET_PLATFORM ${TARGET_PLATFORM})
@@ -60,6 +77,21 @@ elseif(APPLE)
   link_directories(/usr/local/lib)
 endif()
 
+# COMPILE OPTIONS
+add_compile_options(-std=gnu11 -fPIC -D_GNU_SOURCE)
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+  message(STATUS "Debug mode, enabling all warnings")
+  add_compile_options(-Wall -Wno-comment)
+endif()
+
+#   _____           _           _     _____       _        _ _     
+#  |  __ \         (_)         | |   |  __ \     | |      (_) |    
+#  | |__) | __ ___  _  ___  ___| |_  | |  | | ___| |_ __ _ _| |___ 
+#  |  ___/ '__/ _ \| |/ _ \/ __| __| | |  | |/ _ \ __/ _` | | / __|
+#  | |   | | | (_) | |  __/ (__| |_  | |__| |  __/ || (_| | | \__ \
+#  |_|   |_|  \___/| |\___|\___|\__| |_____/ \___|\__\__,_|_|_|___/
+#                 _/ |                                             
+#                |__/                                              
 # FILES
 # expect all sources in /src, except mains
 set(SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/src)
@@ -69,13 +101,6 @@ configure_file(
   ${SOURCE_DIR}/defines.h.in
   ${SOURCE_DIR}/defines.h
 )
-
-# COMPILE OPTIONS
-add_compile_options(-std=gnu11 -fPIC -D_GNU_SOURCE)
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-  message(STATUS "Debug mode, enabling all warnings")
-  add_compile_options(-Wall -Wno-comment)
-endif()
 
 # TARGETS
 add_library(xtemplate_static STATIC ${LIB_SOURCES})
@@ -97,7 +122,12 @@ else()
   target_link_libraries(test xtemplate_static)
 endif()
 
-# INSTALL
+#   _____           _        _ _ 
+#  |_   _|         | |      | | |
+#    | |  _ __  ___| |_ __ _| | |
+#    | | | '_ \/ __| __/ _` | | |
+#   _| |_| | | \__ \ || (_| | | |
+#  |_____|_| |_|___/\__\__,_|_|_|
 if(IS_MIPSEL OR IS_ARM)
   set(CMAKE_INSTALL_PREFIX ${CMAKE_HOME_DIRECTORY}/products)
 else()
@@ -109,12 +139,26 @@ install(TARGETS ${TARGETS_LIST}
   ARCHIVE DESTINATION lib/static
 )
 
-# PACKAGING
+#   _____           _               _             
+#  |  __ \         | |             (_)            
+#  | |__) |_ _  ___| | ____ _  __ _ _ _ __   __ _ 
+#  |  ___/ _` |/ __| |/ / _` |/ _` | | '_ \ / _` |
+#  | |  | (_| | (__|   < (_| | (_| | | | | | (_| |
+#  |_|   \__,_|\___|_|\_\__,_|\__, |_|_| |_|\__, |
+#                              __/ |         __/ |
+#                             |___/         |___/ 
 set(CPACK_GENERATOR "STGZ")
 set(CPACK_PACKAGE_VERSION ${GIT_COMMIT_HASH})
 set(CPACK_PACKAGE_NAME xtemplate-${CMAKE_BUILD_TYPE})
 include(CPack)
 
+#   _____             _              __ _ _      
+#  |  __ \           | |            / _(_) |     
+#  | |  | | ___   ___| | _____ _ __| |_ _| | ___ 
+#  | |  | |/ _ \ / __| |/ / _ \ '__|  _| | |/ _ \
+#  | |__| | (_) | (__|   <  __/ |  | | | | |  __/
+#  |_____/ \___/ \___|_|\_\___|_|  |_| |_|_|\___|
+#                                              
 # if not cross-compiling, create Dockerfile for the target platform
 if(NATIVE)
   option(ENABLE_MRUBY "Enable build of mruby in container" OFF)
