@@ -108,12 +108,6 @@ install(TARGETS ${TARGETS_LIST}
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib/static
 )
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-  install(DIRECTORY include/
-    DESTINATION include/vodisys_algo
-    FILES_MATCHING PATTERN "*.h"
-  )
-endif()
 
 # PACKAGING
 set(CPACK_GENERATOR "STGZ")
