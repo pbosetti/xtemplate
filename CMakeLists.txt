@@ -94,7 +94,7 @@ endif()
 #                |__/                                              
 # FILES
 # expect all sources in /src, except mains
-set(SOURCE_DIR ${CMAKE_HOME_DIRECTORY}/src)
+set(SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/src)
 file(GLOB LIB_SOURCES "${SOURCE_DIR}/*.c")
 # generate defines.h, which also contains version numbers matching git tags
 configure_file(
@@ -129,9 +129,9 @@ endif()
 #   _| |_| | | \__ \ || (_| | | |
 #  |_____|_| |_|___/\__\__,_|_|_|
 if(IS_MIPSEL OR IS_ARM)
-  set(CMAKE_INSTALL_PREFIX ${CMAKE_HOME_DIRECTORY}/products)
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_LIST_DIR}/products)
 else()
-  set(CMAKE_INSTALL_PREFIX ${CMAKE_HOME_DIRECTORY}/products_host)
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_LIST_DIR}/products_host)
 endif()
 install(TARGETS ${TARGETS_LIST}
   RUNTIME DESTINATION bin
