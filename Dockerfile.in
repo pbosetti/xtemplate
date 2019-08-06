@@ -60,6 +60,21 @@ RUN cd ${BUILDDIR} && curl -L https://github.com/zeromq/libzmq/releases/download
     make -Cxbuild install && \
     make -Cxbuild clean
 
+# LibYAML
+ENV LIBYAML_VERSION 0.2.2
+RUN cd ${BUILDDIR} && curl -L https://github.com/yaml/libyaml/archive/${LIBYAML_VERSION}.tar.gz | tar xzf - && \
+    cd libyaml-${LIBYAML_VERSION} && \
+    cmake -DCMAKE_TOOLCHAIN_FILE=${CROSS_ROOT}/Toolchain.cmake -DBUILD_TESTING=OFF _DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CROSS_ROOT} -DYAML_STATIC_LIB_NAME=yaml -Bxbuild -H. && \
+    make -Cxbuild install/strip && \
+    make -Cxbuild clean
+
+# Binn (serialization library)
+RUN cd ${BUILDDIR} && git clone --depth 1 https://github.com/liteserver/binn.git && cd binn && \
+    $CC -fPIC -c src/binn.c && \
+    $AR rcs libbinn.a binn.o && \
+    install -m644 libbinn.a ${CROSS_ROOT}/lib && \
+    rm *.a *.o
+    
 # mruby
 @COMMENT_ENABLE_MRUBY@ENV MRUBY_VERSION 2.0.1
 @COMMENT_ENABLE_MRUBY@RUN apt install -y ruby
