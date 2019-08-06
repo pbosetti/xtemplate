@@ -18,6 +18,8 @@ Furthermore, this template also provides a **basic scaffold for a multiplatform 
 * libmosquitto (1.5.1)
 * ZeroMQ (4.3.2)
 * lua (5.3.5)
+* libYAML (0.2.2)
+* binn ([serialization library](https://github.com/liteserver/binn))
 * mruby (2.0.1) - this is disabled by default, set `ENABLE_MRUBY` in CMake if you need it
 * OpenBLAS (0.3.6) - this is disabled by default, set `ENABLE_OPENBLAS` in CMake if you need it
 
