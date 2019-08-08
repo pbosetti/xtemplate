@@ -128,10 +128,10 @@ endif()
 #    | | | '_ \/ __| __/ _` | | |
 #   _| |_| | | \__ \ || (_| | | |
 #  |_____|_| |_|___/\__\__,_|_|_|
-if(IS_MIPSEL OR IS_ARM)
-  set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_LIST_DIR}/products)
-else()
+if(NATIVE)
   set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_LIST_DIR}/products_host)
+else()
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_LIST_DIR}/products)
 endif()
 install(TARGETS ${TARGETS_LIST}
   RUNTIME DESTINATION bin
