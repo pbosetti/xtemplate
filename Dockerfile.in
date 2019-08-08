@@ -70,7 +70,7 @@ RUN cd ${BUILDDIR} && curl -L https://github.com/yaml/libyaml/archive/${LIBYAML_
 
 # Binn (serialization library)
 RUN cd ${BUILDDIR} && git clone --depth 1 https://github.com/liteserver/binn.git && cd binn && \
-    $CC -fPIC -c src/binn.c && \
+    $CC -fPIC -O3 -c src/binn.c && \
     $AR rcs libbinn.a binn.o && \
     install -m644 libbinn.a ${CROSS_ROOT}/lib && \
     rm *.a *.o
