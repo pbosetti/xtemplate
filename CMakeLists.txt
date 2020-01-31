@@ -42,9 +42,10 @@ execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine OUTPUT_VARIABLE TARGET_
 string(REPLACE "\n" "" TARGET_PLATFORM ${TARGET_PLATFORM})
 string(REGEX MATCH mipsel-openwrt-linux-musl IS_MIPSEL ${TARGET_PLATFORM})
 string(REGEX MATCH armv7-unknown-linux-gnueabi IS_ARM7 ${TARGET_PLATFORM})
+string(REGEX MATCH arm-linux-gnueabihf IS_ARM6 ${TARGET_PLATFORM})
 string(REGEX MATCH arm-cortexa8_neon-linux-gnueabihf IS_ARM7A ${TARGET_PLATFORM})
 string(REGEX MATCH aarch64-unknown-linux-gnueabi IS_ARM64 ${TARGET_PLATFORM})
-if (IS_ARM7 OR IS_ARM7A OR IS_ARM64)
+if (IS_ARM6 OR IS_ARM7 OR IS_ARM7A OR IS_ARM64)
   set(IS_ARM TRUE)
 endif()
 
