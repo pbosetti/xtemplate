@@ -94,3 +94,7 @@ RUN cd ${BUILDDIR} && git clone --depth 1 https://github.com/liteserver/binn.git
 
 # Cleanup build dir
 @COMMENT_BUILD_DIR@RUN rm -rf ${BUILDDIR}/*
+
+RUN apt update && \
+    apt install -y ruby && \
+    gem install gv_fsm
