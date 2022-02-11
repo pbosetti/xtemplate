@@ -200,6 +200,21 @@ This template also provides 4 *tasks* for Visual Studio Code. If you enter `task
 On Mac, tasks can be quickly invoked with `cmd-shift-B`, on Linux/Windows with `ctrl-shift-B`.
 You can customize the tasks by editing the `.vscode/tasks.json` file.
 
+## A note on libraries
+
+Most of the times, cross compiling your project needs third-party libraries, _compiled for the target architecture_. This template project offers a guideline on how to set up a Dockerfile so that it downloads, builds, and installs the libraries needed by your project _within the container_. This is might be a tedius task at the beginning, but it has the advantage of letting you tailor, _and reuse_, your container for different projects with great control on the libraries you need. It also encourages you to use _static_libraries_, removing the need for installing the same libraries with matching versions in the target platform. The resulting compiled product is thus self-contained and easy to move around.
+
+There is another solution, though: use the multi-platform abilities of `apt` to install libraries for the target architecture in the container (which is typically an amd64 architecture). To do so, follow these steps:
+
+* prepare the `apt` facility: run `sudo dpkg --add-architecture armhf`
+* open `/etc/apt/sources.lib` and add `[arch=armhf]` immediately after the keyword `deb` in each line, as in `deb `**`[arch=armhf]`**` http://deb.debian.org/debian bullseye main`
+* run `sudo apt update`
+* install the library you need: e.g. `sudo apt install libncurses5-dev:armhf`
+
+Of course, use the proper architecture tag in place of `armhf`. Now you should be able to cross compile by linking to the `armhf` version of the library: you just have to properly set the `-L` and `-I` flags (use `dpkg-query -L <package>` to search for installed files).
+
+Please note that most of the times `apt` installs dynamic libraries, so if you follow this approach you will have to install the same libraries in the target system, too.
+
 ## License
 
 MIT License. See `LICENSE` file.
