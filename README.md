@@ -79,7 +79,7 @@ If you are reading this on Github, just click on the green button named "Use thi
 
 Otherwise, just [follow this link](https://github.com/pbosetti/xtemplate/generate).
 
-Once you are done **remember to add a git tag to the repo**: `git tag --am " " 0.0.1`. This is needed for enabling the CMake to automatically version-number your code. If you do not add a version number, **CMake will not work!**
+Once you are done **remember to add a git tag to the repo**: `git tag -am " " 0.0.1`. This is needed for enabling the CMake to automatically version-number your code. If you do not add a version number, **CMake will not work!**
 
 ### Step 1: Configure for local, and generate base Dockerfile
 
@@ -106,7 +106,7 @@ in the interactive environment, type `c`, then move down the list and repeatedly
 Take as example the `Dockerfile` generated in Step 1: there are several steps showing how different libraries are cross compiled within the image. If the provided libraries are not enough, just add your own. My suggestion is to start with the provided image, build it with:
 
 ```bash
-$ docker build -t armv7 -f arm7.Dockerfile .
+$ docker build -t armv7 .
 $ docker run --rm armv7 > armv7 && chmod a+x armv7
 ```
 
