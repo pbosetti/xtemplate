@@ -93,6 +93,15 @@ RUN cd ${BUILDDIR} && git clone --depth 1 https://github.com/liteserver/binn.git
 @COMMENT_ENABLE_OPENBLAS@    make -Cxbuild install && \
 @COMMENT_ENABLE_OPENBLAS@    cd .. && rm -rf OpenBLAS-${OPENBLAS_VERSION}
 
+# Bzip2
+RUN cd ${BUILDDIR} && \
+    git clone --depth 1 https://github.com/osrf/bzip2_cmake.git &&\
+    cd bzip2_cmake &&\
+    cmake -DCMAKE_TOOLCHAIN_FILE=${CROSS_ROOT}/Toolchain.cmake -DCMAKE_INSTALL_PREFIX=${CROSS_ROOT} -DCMAKE_BUILD_TYPE=Release -Bbuild && \
+    cmake --build build -t install &&\
+    cd .. && rm -rf bzip2_cmake
+
+
 # Cleanup build dir
 @COMMENT_BUILD_DIR@RUN rm -rf ${BUILDDIR}/*
 
