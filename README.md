@@ -22,6 +22,7 @@ Furthermore, this template also provides a **basic scaffold for a multiplatform 
 * binn ([serialization library](https://github.com/liteserver/binn))
 * mruby (2.0.1) - this is disabled by default, set `ENABLE_MRUBY` in CMake if you need it
 * OpenBLAS (0.3.6) - this is disabled by default, set `ENABLE_OPENBLAS` in CMake if you need it
+* Libbz2 (from <https://github.com/osrf/bzip2_cmake>)
 
 The project is based on CMake and has template targets for building static and shared libraries plus an executable. It also **uses Git tags for managing number versioning in-code**.
 
@@ -36,10 +37,10 @@ The project is based on CMake and has template targets for building static and s
 At the moment the template contains the following tested dockerfiles:
 
 * `mipsel`: tested on Onion Omega2
-* `armv6`: tested on Raspberry Pi
+* `armv6`: tested on Raspberry Pi 1 and 2
 * `armv7`: tested on Variscite DART-6UL armv7 SOM
 * `armv7a`: tested on BeagleBone Black
-* `arm64`: aarch64 machines with latest Ubuntu
+* `arm64`: aarch64 machines with latest Ubuntu (Raspberry Pi 3 and 4)
 * `arm64-lts`: aarch64 machines with LTS ubuntu (as NVIDIA nano, uses older GLIBC)
 
 The following sections assume to cross-compile for the armv7 platform. For other platforms, just replace the `./armv7` command with your need.
@@ -56,18 +57,18 @@ $ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Debug
 $ ./armv7 cmake -Bxbuild -H. -DCMAKE_BUILD_TYPE=Debug
 # edit your source and compile/test it locally,
 # (built products go in products_host dir):
-$ make install
+$ cmake --build build -t install
 # build and install for target system
 # (built products go in products dir):
-$ ./armv7 make install
+$ ./armv7 cmake --build xbuild -t install
 # open an ssh shell to the target system and test your executable
 # (you will find it in /workdir/bin/)
 # Correct bugs and repeat the last step until you are satisfied.
 # Version your code and update version info:
 $ git commit -am "commit message"
 $ git tag -am "version comment" 0.1.0
-$ ./armv7 cmake -Bxbuild -H. -DCMAKE_BUILD_TYPE=Release
-$ ./armv7 make package
+$ ./armv7 cmake -Bxbuild -DCMAKE_BUILD_TYPE=Release
+$ ./armv7 cmake --build xbuild -t package
 # (optional) copy the installer to /workdir on the target system
 $ cp xbuild/myproject-Release-0.1.0-0-g0c05e15-Linux.sh products/
 ```
@@ -91,13 +92,13 @@ The Dockerfile is generated on the basis of the `Dockerfile.in` template file.
 To select the target platform you can either pass it to the command line:
 
 ```bash
-$ cmake -Bbuild -H. -DTARGET_NAME=armv7
+$ cmake -Bbuild -DTARGET_NAME=armv7
 ```
 
 or invoke the interactive `ccmake` and select the proper value (note the double 'c' in `ccmake`):
 
 ```bash
-$ ccmake -Bbuild -H.
+$ ccmake -Bbuild
 ```
 
 in the interactive environment, type `c`, then move down the list and repeatedly type `Enter` until the proper target is selected, then type again `c` and then `g`.
@@ -126,13 +127,13 @@ For configuring the project, the usual CMake command must be prepended with the 
 
 ```bash
 # from within your project root directory
-$ ./armv7 cmake -Bxbuild -H. -DCMAKE_BUILD_TYPE=Debug
+$ ./armv7 cmake -Bxbuild -DCMAKE_BUILD_TYPE=Debug
 ```
 
 while if you want to configure for your current (host) platform:
 
 ```bash
-$ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Debug
+$ cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug
 ```
 
 **IMPORTANT NOTE**: the Dockecross images mount the current working directory within the container, so that in order to access files in your project root you *must* invoke CMake from the project root. If you are tempred to do `cd xbuild; ./armv7 cmake ..` you will loose access to the project root and something probably will not work.
@@ -143,13 +144,13 @@ For building, use the make command:
 
 ```bash
 # from within your project root directory
-$ ./armv7 make -Cxbuild
+$ ./armv7 cmake --build xbuild
 ```
 
 while if you want to build for your current (host) platform:
 
 ```bash
-$ make -Cbuild
+$ cmake --build build
 ```
 
 **IMPORTANT NOTE**: as per the note above, please invoke `./armv7 make` from the project root using the `-C` flag.
@@ -168,7 +169,7 @@ $ sshfs user@target.ip:/path/to/prefix ./products
 This command mounts the prefix directory on the target system onto the `products` subdir of your project directory. Since the Dockerfile install target is configured to install binaries into `products`, if you do
 
 ```bash
-$ ./armv7 make -Cxbuild install
+$ ./armv7 cmake --build xbuild -t install
 ```
 
 this installs the built stuff into `products/bin`, `products/lib`, `products/include`. In turn, since `products` mounts the prefix dir of the target system, the command `./armv7 make -Cxbuild install` compiles **and** copies the build results into the destination system in one single line. If you set `/usr/local` as prefix dir, your compiled stuff will end in `/usr/local/bin` etc.
@@ -180,7 +181,7 @@ this installs the built stuff into `products/bin`, `products/lib`, `products/inc
 Using CPack, the provided CMake template can easily create an installer for the linux environment:
 
 ```bash
-$ ./armv7 make -Cxbuild package
+$ ./armv7 cmake --build xbuild -t package
 ```
 
 The resulting installer is in the `xbuild` folder, with a name with this scheme: `xtemplate-Release-0.0.1-1-g0c05e15-Linux.sh`, which reads like this: `<name>-<build type>-<version>-<patch>-<git hash>-<platform>.sh`. The patch number is the number of commits past the given version tag.
