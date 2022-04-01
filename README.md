@@ -40,8 +40,8 @@ At the moment the template contains the following tested dockerfiles:
 * `armv6`: tested on Raspberry Pi 1 and 2
 * `armv7`: tested on Variscite DART-6UL armv7 SOM
 * `armv7a`: tested on BeagleBone Black
-* `arm64`: aarch64 machines with latest Ubuntu (Raspberry Pi 3 and 4)
-* `arm64-lts`: aarch64 machines with LTS ubuntu (as NVIDIA nano, uses older GLIBC)
+* `arm64`: aarch64 machines with latest Ubuntu
+* `arm64-lts`: aarch64 machines with LTS ubuntu (as Raspberry 3 and 4, NVIDIA nano, uses older GLIBC)
 
 The following sections assume to cross-compile for the armv7 platform. For other platforms, just replace the `./armv7` command with your need.
 
