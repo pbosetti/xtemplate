@@ -195,15 +195,19 @@ if(NATIVE)
     endif()
   endmacro()
 
-  enable_package(binn)
-  enable_package(bzip2)
-  enable_package(libyaml)
-  enable_package(lua)
-  enable_package(mosquitto)
-  enable_package(mruby)
-  enable_package(oniguruma)
-  enable_package(openblas)
-  enable_package(zeromq)
+  foreach(PKG IN ITEMS
+    binn
+    bzip2
+    libyaml
+    lua
+    mosquitto
+    mruby
+    oniguruma
+    openblas
+    zeromq
+  )
+    enable_package(${PKG})
+  endforeach()
 
   configure_file(
     ${CMAKE_HOME_DIRECTORY}/Dockerfile.in
