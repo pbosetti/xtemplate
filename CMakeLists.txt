@@ -190,6 +190,7 @@ if(NATIVE)
     option(ENABLE_${PACKAGE_VAR} "Enable build of ${PACKAGE_NAME} in container" OFF)
     if(ENABLE_${PACKAGE_VAR})
       file(READ Docker.in/${PACKAGE_NAME}.Dockerfile ENABLE_${PACKAGE_VAR})
+      message(STATUS "Enabling build of ${PKG}")
     else()
       set(ENABLE_${PACKAGE_VAR} "# ${PACKAGE_NAME} disabled")
     endif()
@@ -207,7 +208,6 @@ if(NATIVE)
     zeromq
   )
     enable_package(${PKG})
-    message(STATUS "Enabling build of ${PKG}")
   endforeach()
 
   configure_file(
