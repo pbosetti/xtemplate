@@ -59,30 +59,30 @@ RUN cd ${BUILDDIR} && curl -L https://ftp.gnu.org/gnu/readline/readline-${READLI
 #   \___/|_|    |_| |___\___/|_| \_/_/   \_\_____|
 # The following are optionally enabled via cmake options
 
-# libmosquitto
-@ENABLE_MOSQUITTO@
+# Binn (serialization library)
+@ENABLE_BINN@
 
-# Lua library and REPL
-@ENABLE_LUA@
-
-# ZeroMQ
-@ENABLE_ZEROMQ@
+# Bzip2
+@ENABLE_BZIP2@
 
 # LibYAML
 @ENABLE_LIBYAML@
 
-# Binn (serialization library)
-@ENABLE_BINN@
+# Lua library and REPL
+@ENABLE_LUA@
 
-# Oniguruma RegExp library
-@ENABLE_ONIGURUMA@
+# libmosquitto
+@ENABLE_MOSQUITTO@
 
 # mruby
 @ENABLE_MRUBY@
 
+# Oniguruma RegExp library
+@ENABLE_ONIGURUMA@
+
 # OpenBLAS
 @ENABLE_OPENBLAS@
 
-# Bzip2
-@ENABLE_BZIP2@
+# ZeroMQ
+@ENABLE_ZEROMQ@
 
