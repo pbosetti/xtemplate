@@ -207,6 +207,7 @@ if(NATIVE)
     zeromq
   )
     enable_package(${PKG})
+    message(STATUS "Enabling build of ${PKG}")
   endforeach()
 
   configure_file(
