@@ -68,6 +68,12 @@ RUN cd ${BUILDDIR} && curl -L https://ftp.gnu.org/gnu/readline/readline-${READLI
 # LibYAML
 @ENABLE_LIBYAML@
 
+# GSL
+@ENABLE_GSL@
+
+#libuv
+@ENABLE_LIBUV@
+
 # Lua library and REPL
 @ENABLE_LUA@
 
@@ -86,3 +92,5 @@ RUN cd ${BUILDDIR} && curl -L https://ftp.gnu.org/gnu/readline/readline-${READLI
 # ZeroMQ
 @ENABLE_ZEROMQ@
 
+# Zlib
+@ENABLE_ZLIB@
