@@ -89,6 +89,9 @@ RUN cd ${BUILDDIR} && curl -L https://ftp.gnu.org/gnu/readline/readline-${READLI
 # OpenBLAS
 @ENABLE_OPENBLAS@
 
+# TOML (Config files)
+@ENABLE_TOML@
+
 # ZeroMQ
 @ENABLE_ZEROMQ@
 

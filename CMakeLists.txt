@@ -206,6 +206,7 @@ if(NATIVE)
     mruby
     oniguruma
     openblas
+    toml
     zeromq
     zlib
     gsl
