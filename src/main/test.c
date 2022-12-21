@@ -5,7 +5,8 @@
 int main(int argc, char* argv[]) {
   char mac[13];
   if (argc < 2) {
-    fprintf(stderr, "Version: %s\n", GIT_COMMIT_HASH);
+    fprintf(stderr, "Version:  %s (%s)\n", GIT_COMMIT_HASH, CMAKE_BUILD_TYPE);
+    fprintf(stderr, "Platform: %s\n", CMAKE_PLATFORM);
     fprintf(stderr, "I need the interface name as single argument!\n");
     return -1;
   }
