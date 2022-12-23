@@ -199,6 +199,7 @@ if(NATIVE)
   foreach(PKG IN ITEMS
     binn
     bzip2
+    gsl
     libuv
     libyaml
     lua
@@ -209,7 +210,6 @@ if(NATIVE)
     toml
     zeromq
     zlib
-    gsl
   )
     enable_package(${PKG})
   endforeach()
